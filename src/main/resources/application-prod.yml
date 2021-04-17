@@ -6,9 +6,9 @@
     port: 8088
     debug: false
 #    服务器本地路径
-    fileSavePath: /usr/share/nginx/html/weikasite/save_path/
+    fileSavePath:
 #    文件服务路径
-    fileUrl: http://imagepath.fangshangqu.com/weikasite/save_path/
+    fileUrl:
 
 
  #本服务基本配置
@@ -19,8 +19,8 @@
     #数据库
     datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://122.114.4.111:31306/weika?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
-      username: root
+      url: jdbc:mysql://:31306/weika?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+      username:
       password:
 
       #添加阿里连接池

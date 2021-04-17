@@ -34,7 +34,7 @@
     #数据库
     datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.14.11:3306/otzg-pay?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+      url: jdbc:mysql://:3306/otzg-pay?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
       username: root
       password: root
       #添加阿里连接池

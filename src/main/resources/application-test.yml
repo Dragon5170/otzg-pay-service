@@ -7,18 +7,18 @@
 #    服务器本地路径
     fileSavePath: /usr/share/nginx/html/b2b_fsgl/save_path/
 #    文件服务路径
-    fileUrl: https://feisai.zhongguogeliang.com
+    fileUrl: https://
 
 
  #本服务基本配置
   spring:
     application:
-      name: B2B_FSGL-SERVER
+      name:
 
     #数据库
     datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-#      url: jdbc:mysql://119.3.182.68:3306/b2b-fsgl?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+#      url: jdbc:mysql:
       url: jdbc:mysql://localhost:3306/b2b-fsgl?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
       username: root
       password:
