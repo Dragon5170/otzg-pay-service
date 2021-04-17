@@ -1,0 +1,150 @@
+####
+# 开发环境配置
+####
+
+  server:
+    port: 8031
+#    服务器本地路径
+    fileSavePath: E:/log/
+#    fileSavePath: C:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps/ROOT
+#    文件服务路径
+    servUrl: http://ryptya.natappfree.cc
+
+#服务注册
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://127.0.0.1:8090/eureka
+
+    instance:
+      #      lease-renewal-interval-in-seconds: 10
+      #      lease-expiration-duration-in-seconds: 5
+
+      #    注册到eureka服务器的地址及端口,注意部署到tomcat后的端口问题
+      instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+      prefer-ip-address: true
+
+
+
+ #本服务基本配置
+  spring:
+    application:
+      name: OTZG-PAY-SERVER
+
+    #数据库
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.14.11:3306/otzg-pay?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+      username: root
+      password: root
+      #添加阿里连接池
+      type: com.alibaba.druid.pool.DruidDataSource
+      druid:
+        # 初始连接数
+        initial-size: 5
+        # 最大激活数
+        max-active: 10
+
+        minIdle: 3
+        # 最大等待时间
+        max-wait: 6000
+        #超过时间限制是否回收
+        removeAbandoned: true
+        #超时时间；单位为秒。180秒=3分钟
+        removeAbandonedTimeout: 180
+        #是否记录当前线程的堆栈信息到日志中
+        logAbandoned: true
+        # Destroy线程会检测连接的间隔时间 || testWhileIdle的判断依据
+        time-between-eviction-runs-millis: 60000
+
+        minEvictableIdleTimeMillis: 300000
+
+        # 验证的sql语句
+        validation-query: select 1 from user
+        # 验证超时
+        validation-query-timeout: 3000
+
+        # 连接时是否开启验证
+        test-on-borrow: true
+        # 退还连接时是否开启验证
+        test-on-return: false
+        # 建议配置为true，不影响性能，并且保证安全性
+        test-while-idle: true
+
+        # 是否启用非公平锁
+        use-unfair-lock: true
+        # mysql 用 false | oracle 用 true
+        pool-prepared-statements: false
+        # 启动监听、日志、防注入的功能
+        filters: stat,log4j,wall
+
+#配置redis
+    redis:
+      database: 0
+      # Redis服务器地址
+      host: 192.168.14.11
+      # Redis服务器连接端口
+      port: 6379
+      # Redis服务器连接密码（默认为空）
+      password: g5ymm5
+      # 连接池最大连接数（使用负值表示没有限制）
+#      pool:
+#        max-active: 8
+#      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#        max-wait: -1
+#      # 连接池中的最大空闲连接
+#        max-idle: 8
+#      # 连接池中的最小空闲连接
+#        min-idle: 0
+#      # 连接超时时间（毫秒）
+      timeout: 5000
+
+
+    #配置jpa
+    jpa:
+      database: mysql
+      show-sql: true
+#      ddl-auto: create-drop
+      hibernate:
+        ddl-auto: update
+#        ddl-auto: create
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+    http:
+      encoding:
+        force: true
+
+    servlet:
+      multipart:
+        max-request-size: 10MB
+        max-file-size: 10MB
+
+    mvc:
+      view:
+        prefix: /
+        suffix: .html
+
+  pay:
+    wx:
+      mchId: 1513549201
+      key: Bcb19e0814494a248d28c591d4bc31e1
+      appId: wxa574b9142c67f42e
+      autoReport: true
+      useSandbox: false
+      sandboxKey: 5ffeda033fb8fab92ae24d321257b01f
+#      本地测试需每日更换
+      notifyUrl: /pay/wx/notify
+      certSn: 5663476TEREGD45FH63GDFHFG657FCHBFG
+      certRootPath: D:/workspace/otzg-pay-service/src/main/webapp
+      appSecret: D:/workspace/otzg-pay-service/src/main/webapp
+      gzhAppId:
+      gzhAppSecret:
+
+    alipay:
+      pid: "2088821411693203"
+      appId: "2019011162891191"
+      alipay-public-key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1EHvr+EMX5SM3NY9GtJrUNWGd6jeyeov6481Fi5ZFSxkuiY9MD8cYF1NZ/HrXZuXcrsFUTReZjm+Arl57tuU+It6dJga0R44yPirYJnJxxliAhjtY+pluQRUMaKwMMxap8i0aStdBj58frLWG3sr6QQD2V/DglQ6YaeFGMHLq9EMtQ87Hvms8P41t9x3PXBpsWQ44EYH6NI4eNgpgw47M6LQXNqG/5O0iE6E9iHvzMDE62M7Jm8fJULOMm9FEl8652jkquwB5W0291A84sXAhArkNCbckzbIRvMAw8Oohezkwis+l6uvQKqsUmagOD9flaM1IyK/oH6yhk2/2OprHwIDAQAB"
+      app-private-key: "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCL3NN95V5mzd1DkIYoEJyMVhNnM70wQk3F3bkzRshSyNjZYabSeuz9rXcgmO11CQ1IYkkjBv4yUvlftMEt/4KfI39Y4eG20Ky2GzdWvvWUNA/pf+EaAxc7VH+4PAmD9V5JsmkgzYyYvfgzSFOw+FybU2MmogeIh1yL0lCPwCar5C1OgWiGXx4goSBpMCxvsNv0M86le/eg3Q9rsIaJiHjloxBOYoBk80PFcKvQYrQ0B0r9aWwmg0emViMK97+p/mtkZ7S0OOyNQ9k2lAE+ZQSx47c2tND8pPnY8RmFf9vFesLWWD2vkfCZEAv782RufBtqQTiC85v9mmRNajYy65yPAgMBAAECggEAe9tZ+1KFL/s859lzxMU5LVoIossBzlvZLdF1ccBMJGuzBYbhyeGMP/Y+2cIz/wG+HozTgc5ui7hJGIUk0gxE65Lu8pJOZawUVsxxTEOdjNoyATD68iMsjqD83fVk49QF5LO3P5Jn4NfSle+GFeFLeU32Lz8r9q8QuM3OBA9A79S3lBv5VC2DiUyvIWHrf2BLtOUsBse+bib/pDOAVg1cYc7HM3Nlwfgah86sBcpxumyr0U57MCWjNMRd9gyqclxjRjL1T0F8jcoHOsJixkY1B1WOZ/lv0MoElXREGVzjYEj0pm8C6cc2HLluvs3O8d8ePtS06N+M0LCLa53YWj/kQQKBgQDRu6LNRRts2IsRdATK1Tw5vh0eUqxuMNRuB0YT7FtdHBBUvpE9AksWnSmDE5F2hPQTKM6HPk5CWra5WLW92Ex5H0hfveupI+XQ8VRr22dLylYHBhmGq8jeHDDIVxfwuV1j13QiyEi4GlfFazf/4/1vai39svrjrVCrVI+7wKpHYQKBgQCqt10SXAot049zeq0k28LUw8GvZJnnIJXuwoukcl+XHPvs99kFbnqeGvJ0sm6NRHE6bJsoGeSljITXo10Ve6+nfhSRHRso7CVXoj8qo1jtQGobI/qJmWPoU0SK560KEsl9/6xbjBsqh7Ye+u2kyvBeZw73KJzRj56F7FD2NYqZ7wKBgQDHTa2JrzA+oRCWh0++iB/xJ054cEvXcqOL43GeoS65Ll/+iBFwjmtYlATMwJ2sqO9f/Zk1P+oSeC3HuBsMyyzwtN+Ly+jUFH7hrVNyI07n4OEbT5qWNUxudQ+OceUYJq4uoKGGJBmmibH6ssbGbpt5csc9nQV5sktEZNkprA6kQQKBgGywU2xF9yEYCcPO/f9yfwexHlZJqYayg2LAr+FiBCQUivxjC+PeY+jXZTgRBjugsKouzVXprl4MKeOUmcX8umfb6MI/ErSqLFgv7yF5YDulACkJbhA+/ZHDuebp+4xnS6uRpS2f9QfN4ZC116lMn16rJKcNT1JIqve+7gjjK7w3AoGAS+chI5ypo2xGKir5+Pidazlvq1Y8WfXgZS2OzGHiLZ80euNyHGQvnfumDwRKifrBrngnalYlQYXra3OBPeHU/jHaG54otnj3oFxWvrer29kjRo73uuLlXgq92VauYoxmDcmDGcREXbT5THFj9r1gLGr6wUb+j6OMQKvSdkw4z3U="
+      gatewayUrl: "https://openapi.alipay.com/gateway.do"
+      notifyUrl: /pay/alipay/notify
+      authNotifyUrl: /alipay/openAuthTokenApp/notify

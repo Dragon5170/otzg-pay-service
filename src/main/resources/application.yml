@@ -1,0 +1,15 @@
+###
+# 运行环境
+# 1、需要jre8.0以上，Tomcat8.5支持
+# 2、开发环境配置文件 application-dev.yml
+# 3、测试环境配置文件 application-test.yml
+# 4、生成环境配置文件 application-prod.yml
+
+  spring:
+    profiles:
+      #开发环境参数
+      active: dev
+      #测试环境参数
+#      active: test
+      #生成环境参数
+      #active: prod

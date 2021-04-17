@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 文件输出格式 -->
+    <property name="PATTERN" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c [%L] -| %msg%n" />
+    <property name="PATTERN2" value="%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+    <property name="PATTERN3" value="%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n" />
+    <property name="PATTERN_COLOR" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(-%5p) %red(${PID:-}) [%15.15t] %green(%-40.40logger{35}) : %m%n" />
+
+    <!-- 获取spring配置文件中的路径 -->
+    <springProperty scope="context" name="LOG_FILE_PATH" source="server.fileSavePath" defaultValue="logs"/>
+
+    <!-- 开发环境 -->
+    <springProfile name="dev">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <withJansi>true</withJansi>
+            <encoder>
+                <pattern>${PATTERN_COLOR}</pattern>
+            </encoder>
+        </appender>
+
+        <logger name="com.otzg.members" level="debug" />
+        <root level="info">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
+
+    <!-- 测试环境 -->
+    <springProfile name="test">
+        <appender name="TEST_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_FILE_PATH}/log/sys/error%d{yyyy-MM-dd}.log</fileNamePattern>
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </appender>
+
+        <root level="error">
+            <appender-ref ref="TEST_FILE" />
+        </root>
+    </springProfile>
+    <!-- 生产环境 -->
+    <springProfile name="prod">
+        <appender name="PROD_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_FILE_PATH}/log/sys/error%d{yyyy-MM-dd}.log</fileNamePattern>
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </appender>
+
+        <root level="error">
+            <appender-ref ref="PROD_FILE" />
+        </root>
+    </springProfile>
+</configuration>

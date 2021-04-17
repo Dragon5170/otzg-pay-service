@@ -1,0 +1,104 @@
+﻿####
+# 测试环境配置
+####
+
+  server:
+    port: 8080
+#    服务器本地路径
+    fileSavePath: /usr/share/nginx/html/b2b_fsgl/save_path/
+#    文件服务路径
+    fileUrl: https://feisai.zhongguogeliang.com
+
+
+ #本服务基本配置
+  spring:
+    application:
+      name: B2B_FSGL-SERVER
+
+    #数据库
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://119.3.182.68:3306/b2b-fsgl?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+      url: jdbc:mysql://localhost:3306/b2b-fsgl?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+      username: root
+      password:
+
+      #添加阿里连接池
+      type: com.alibaba.druid.pool.DruidDataSource
+      druid:
+        # 初始连接数
+        initial-size: 5
+        # 最大激活数
+        max-active: 10
+
+        minIdle: 3
+        # 最大等待时间
+        max-wait: 6000
+        #超过时间限制是否回收
+        removeAbandoned: true
+        #超时时间；单位为秒。180秒=3分钟
+        removeAbandonedTimeout: 180
+        #是否记录当前线程的堆栈信息到日志中
+        logAbandoned: true
+        # Destroy线程会检测连接的间隔时间 || testWhileIdle的判断依据
+        time-between-eviction-runs-millis: 60000
+
+        minEvictableIdleTimeMillis: 300000
+
+        # 验证的sql语句
+        validation-query: select 1 from user
+        # 验证超时
+        validation-query-timeout: 3000
+
+        # 连接时是否开启验证
+        test-on-borrow: true
+        # 退还连接时是否开启验证
+        test-on-return: false
+        # 建议配置为true，不影响性能，并且保证安全性
+        test-while-idle: true
+
+        # 是否启用非公平锁
+        use-unfair-lock: true
+        # mysql 用 false | oracle 用 true
+        pool-prepared-statements: false
+        # 启动监听、日志、防注入的功能
+        filters: stat,log4j,wall
+
+    #配置jpa
+    jpa:
+      database: mysql
+      show-sql: true
+      #ddl-auto: create-drop
+      hibernate:
+        ddl-auto: update
+        #ddl-auto: create
+
+#    #配置redis
+#    redis:
+#      database: 0
+#      # Redis服务器地址
+#      host: 127.0.0.1
+#      # Redis服务器连接端口
+#      port: 6379
+#      # Redis服务器连接密码（默认为空）
+#      password:
+#      # 连接池最大连接数（使用负值表示没有限制）
+#      pool:
+#        max-active: 8
+#      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#        max-wait: -1
+#      # 连接池中的最大空闲连接
+#        max-idle: 8
+#      # 连接池中的最小空闲连接
+#        min-idle: 0
+#      # 连接超时时间（毫秒）
+#      timeout: 0
+
+    http:
+      encoding:
+        force: true
+
+    mvc:
+      view:
+        prefix: /
+        suffix: .html

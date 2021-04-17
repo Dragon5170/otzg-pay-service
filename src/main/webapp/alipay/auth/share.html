@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>授权通知</title>
+
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            text-align: center;
+            padding-top: 30%;
+        }
+
+        p {
+            font-size: 3rem
+        }
+
+        img {
+            width: 600px;
+            height: 600px;
+        }
+
+        a {
+            border: 1px solid #1f2d3d;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 2rem;
+            color: #5a5e66;
+            padding: 16px 14px;
+            display: inline-block;
+        }
+    </style>
+
+</head>
+<body>
+<img id="img" src="" alt="">
+<p>授权提醒</p>
+<p>请扫描当前二维码授权xxx公司资金</p>
+<p class="p1"><a href="" id="link" target="_blank">也可点击该按钮自行授权</a></p>
+</body>
+<script>
+    function getUrlPara(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    document.getElementById("img").src = "/auth/qrcode?code="+getUrlPara('code');
+    document.getElementById("link").href = getUrlPara('link')+'&redirect_uri='+getUrlPara('redirect_uri');
+</script>
+</html>
